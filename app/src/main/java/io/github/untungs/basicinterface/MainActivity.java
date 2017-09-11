@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +15,10 @@ import java.util.List;
 import io.github.untungs.basicinterface.company.Manager;
 import io.github.untungs.basicinterface.company.Worker;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Manager.OnDocumentUpdateListener {
 
     private Manager manager;
+    private TextView textReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +27,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        textReport = (TextView) findViewById(R.id.textReport);
+
 
         List<Worker> workers = Arrays.asList(new Worker("A", 100), new Worker("B", 3000), new Worker("C", 7000));
         manager = new Manager();
         manager.setWorkers(workers);
-
-        manager.assignWork();
-
+        manager.setListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Test", manager.report());
+                manager.assignWork();
             }
         });
     }
@@ -63,5 +64,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDocumentUpdated(String report) {
+        textReport.setText(manager.report());
     }
 }

@@ -7,6 +7,11 @@ public class Manager implements Supervisor {
 
     private List<Worker> workers;
     private List<Document> documents = new ArrayList<>();
+    private OnDocumentUpdateListener listener;
+
+    public void setListener(OnDocumentUpdateListener listener) {
+        this.listener = listener;
+    }
 
     public void setWorkers(List<Worker> workers) {
         this.workers = workers;
@@ -23,6 +28,9 @@ public class Manager implements Supervisor {
     @Override
     public void receiveDocument(Document document) {
         documents.add(document);
+        if (listener != null) {
+            listener.onDocumentUpdated(report());
+        }
     }
 
     public void assignWork() {
@@ -39,4 +47,9 @@ public class Manager implements Supervisor {
 
         return reportString;
     }
+
+    public interface OnDocumentUpdateListener {
+        void onDocumentUpdated(String report);
+    }
+
 }
