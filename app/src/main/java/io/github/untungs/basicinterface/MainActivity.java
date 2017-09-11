@@ -2,14 +2,22 @@ package io.github.untungs.basicinterface;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Arrays;
+import java.util.List;
+
+import io.github.untungs.basicinterface.company.Manager;
+import io.github.untungs.basicinterface.company.Worker;
+
 public class MainActivity extends AppCompatActivity {
+
+    private Manager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +26,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        List<Worker> workers = Arrays.asList(new Worker("A"), new Worker("B"), new Worker("C"));
+        manager = new Manager();
+        manager.setWorkers(workers);
+
+        manager.assignWork();
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Log.d("Test", manager.report());
             }
         });
     }
