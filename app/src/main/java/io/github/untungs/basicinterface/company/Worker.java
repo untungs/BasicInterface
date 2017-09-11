@@ -1,12 +1,16 @@
 package io.github.untungs.basicinterface.company;
 
+import android.os.Handler;
+
 public class Worker {
 
     private final String name;
+    private final long speed;
     private Supervisor supervisor;
 
-    public Worker(String name) {
+    public Worker(String name, long speed) {
         this.name = name;
+        this.speed = speed;
     }
 
     public void setSupervisor(Supervisor supervisor) {
@@ -14,10 +18,16 @@ public class Worker {
     }
 
     public void doWork() {
-        Document document = new Document(name);
-        document.setBody("blablabla");
+        final Document document = new Document(name);
 
-        supervisor.receiveDocument(document);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                document.setBody("blablabla");
+                supervisor.receiveDocument(document);
+            }
+        }, speed);
     }
 
 }

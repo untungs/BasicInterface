@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        List<Worker> workers = Arrays.asList(new Worker("A"), new Worker("B"), new Worker("C"));
+        List<Worker> workers = Arrays.asList(new Worker("A", 100), new Worker("B", 3000), new Worker("C", 7000));
         manager = new Manager();
         manager.setWorkers(workers);
 
