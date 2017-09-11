@@ -3,7 +3,7 @@ package io.github.untungs.basicinterface.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Manager {
+public class Manager implements Supervisor {
 
     private List<Worker> workers;
     private List<Document> documents = new ArrayList<>();
@@ -16,10 +16,11 @@ public class Manager {
     private void briefWorkers() {
         System.out.println("Hellow, I'm your manager");
         for (Worker worker : workers) {
-            worker.setManager(this);
+            worker.setSupervisor(this);
         }
     }
 
+    @Override
     public void receiveDocument(Document document) {
         documents.add(document);
     }
